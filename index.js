@@ -9,33 +9,60 @@ let selectRole;
 
 // Generate the webpage
 const generateManagerHTML = (manager) => {
-    return `<h2>${manager.name}</h2>
-<h3>${manager.role}</h3>
-<ul>
-<li>${manager.id}</li>
-<li>${manager.email}</li>
-<li>${manager.office}</li>
-</ul>`
+    return `<div class="col-12 col-sm-6 col-lg-4 mb-3">
+                <div class="card border border-dark">
+                    <h3 class="card-header bg-info text-white border-bottom border-dark">
+                        ${manager.name}
+                    </h3>
+                    <div class="card-body">
+                        <h4 class="card-title">${manager.role}</h4>
+                        <ul class="card-text list-group list-group-flush">
+                            <li class="list-group-item">ID: ${manager.id}</li>
+                            <li class="list-group-item">Email: <a href="mailto:${manager.email}" class="card-link">${manager.email}</a></li>
+                            <li class="list-group-item">Office number: ${manager.office}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            `
 }
 
 const generateEngineerHTML = (engineer) => {
-    return `<h2>${engineer.name}</h2>
-<h3>${engineer.role}</h3>
-<ul>
-<li>${engineer.id}</li>
-<li>${engineer.email}</li>
-<li>${engineer.github}</li>
-</ul>`
+    return `<div class="col-12 col-sm-6 col-lg-4 mb-3">
+                <div class="card border border-dark">
+                    <h3 class="card-header bg-info text-white border-bottom border-dark">
+                        ${engineer.name}
+                    </h3>
+                    <div class="card-body">
+                        <h4 class="card-title">${engineer.role}</h4>
+                        <ul class="card-text list-group list-group-flush">
+                            <li class="list-group-item">ID: ${engineer.id}</li>
+                            <li class="list-group-item">Email: <a href="mailto:${engineer.email}"  class="card-link">${engineer.email}</a></li>
+                            <li class="list-group-item">Github: <a href="https://github.com/${engineer.github}" class="card-link">${engineer.github}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            `
 }
 
 const generateInternHTML = (intern) => {
-    return `<h2>${intern.name}</h2>
-<h3>${intern.role}</h3>
-<ul>
-<li>${intern.id}</li>
-<li>${intern.email}</li>
-<li>${intern.school}</li>
-</ul>`
+    return `<div class="col-12 col-sm-6 col-lg-4 mb-3">
+                <div class="card border border-dark">
+                    <h3 class="card-header bg-info text-white border-bottom border-dark">
+                        ${intern.name}
+                    </h3>
+                    <div class="card-body">
+                        <h4 class="card-title">${intern.role}</h4>
+                        <ul class="card-text list-group list-group-flush">
+                            <li class="list-group-item">ID: ${intern.id}</li>
+                            <li class="list-group-item">Email: <a href="mailto:${intern.email}"  class="card-link">${intern.email}</a></li>
+                            <li class="list-group-item">School: ${intern.school}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            `
 }
 
 // Prompts for Employee information
@@ -84,7 +111,7 @@ function getManagerInfo(employee) {
             const manager = new Manager(employee.name, employee.id, employee.email, data.office);
             console.log(manager);
             const managerHTMLContent = generateManagerHTML(manager);
-            fs.appendFile('example.html', managerHTMLContent, (err) =>
+            fs.appendFile('index.html', managerHTMLContent, (err) =>
             err ? console.error(err) : console.log('Commit logged!'));
             runMenu();
         })
@@ -117,9 +144,14 @@ function useMenu({ selection }) {
             break;
         case 'Finish building my team':
             const closingHTMLContent = 
-            `</body>
-            </html>`;
-            fs.appendFile('example.html', closingHTMLContent, (err) =>
+            `</section>
+            </div>
+            </section>
+            </main>
+            </body>
+            </html>
+            `;
+            fs.appendFile('index.html', closingHTMLContent, (err) =>
             err ? console.error(err) : console.log('Tada!'));
             break;
         default:
@@ -140,7 +172,7 @@ function getEngineerInfo(employee) {
             const engineer = new Engineer(employee.name, employee.id, employee.email, data.github);
             console.log(engineer);
             const engineerHTMLContent = generateEngineerHTML(engineer);
-            fs.appendFile('example.html', engineerHTMLContent, (err) =>
+            fs.appendFile('index.html', engineerHTMLContent, (err) =>
             err ? console.error(err) : console.log('Commit logged!'));
             runMenu();
         })
@@ -159,7 +191,7 @@ function getInternInfo(employee) {
             const intern = new Intern(employee.name, employee.id, employee.email, data.school);
             console.log(intern);
             const internHTMLContent = generateInternHTML(intern);
-            fs.appendFile('example.html', internHTMLContent, (err) =>
+            fs.appendFile('index.html', internHTMLContent, (err) =>
             err ? console.error(err) : console.log('Commit logged!'));
             runMenu();
         })
@@ -169,16 +201,28 @@ function getInternInfo(employee) {
 function runProgram() {
     const openingHTMLContent = 
     `<!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Team Profile</title>
-        </head>
-        <body>
-        <h1>This is my team</h1>`;
-    fs.writeFile('example.html', openingHTMLContent, (err) =>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+        <title>Team Profile</title>
+    </head>
+    
+    <body>
+        <header class="container-fluid bg-dark text-light mb-5 p-3">
+            <div class="d-flex align-items-center justify-content-center">
+                <h1>My Team</h1>
+            </div>
+        </header>
+    
+        <main class="container">
+            <section class="row">
+                <div class="col-12 col-md-12">      
+                    <section class="row justify-content-around">
+                      `;
+    fs.writeFile('index.html', openingHTMLContent, (err) =>
     err ? console.error(err) : console.log('Commit logged!'));
     console.log('Let\'s begin with the team manager.');
     getEmployeeInfo();
