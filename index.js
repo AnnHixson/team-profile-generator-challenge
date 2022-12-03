@@ -152,7 +152,7 @@ function useMenu({ selection }) {
             </html>
             `;
             fs.appendFile('index.html', closingHTMLContent, (err) =>
-            err ? console.error(err) : console.log('Tada!'));
+            err ? console.error(err) : console.log('HTML generated.'));
             break;
         default:
             console.log('Something went wrong in the useMenu switch');
